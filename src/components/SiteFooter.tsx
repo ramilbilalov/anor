@@ -44,9 +44,7 @@ export async function SiteFooter() {
       </div>
 
       <div className="border-t border-border py-4 text-center text-xs text-muted">
-        <Link href="/admin" className="hover:text-primary">
-          Панель администратора
-        </Link>
+        © {new Date().getFullYear()} {s.restaurantName}
       </div>
     </footer>
   );
