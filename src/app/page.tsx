@@ -4,6 +4,7 @@ import { formatPrice } from "@/lib/format";
 import { getSettings } from "@/lib/settings";
 import { Header } from "@/components/Header";
 import { SiteFooter } from "@/components/SiteFooter";
+import { CategoryNav } from "@/components/CategoryNav";
 import { AddToCartButton } from "@/components/AddToCartButton";
 
 export const dynamic = "force-dynamic";
@@ -53,9 +54,21 @@ export default async function HomePage() {
           </p>
         )}
 
+        {hasProducts && (
+          <CategoryNav
+            categories={categories
+              .filter((c) => c.products.length > 0)
+              .map((c) => ({ id: c.id, name: c.name }))}
+          />
+        )}
+
         {categories.map((category) =>
           category.products.length === 0 ? null : (
-            <section key={category.id} className="mb-10">
+            <section
+              key={category.id}
+              id={`category-${category.id}`}
+              className="mb-10 scroll-mt-32"
+            >
               <h2 className="mb-4 text-xl font-semibold">{category.name}</h2>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {category.products.map((product) => (
