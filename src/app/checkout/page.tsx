@@ -13,7 +13,7 @@ export default function CheckoutPage() {
 
   const [form, setForm] = useState({
     customerName: "",
-    phone: "",
+    phone: "+7",
     address: "",
     comment: "",
   });
@@ -24,9 +24,37 @@ export default function CheckoutPage() {
     setForm((prev) => ({ ...prev, [field]: value }));
   }
 
+  // Keep the phone field masked as +7 (999) 123-45-67 and always starting with +7.
+  function formatRuPhone(raw: string): string {
+    let d = raw.replace(/\D/g, "");
+    if (d.startsWith("8")) d = d.slice(1);
+    else if (d.startsWith("7")) d = d.slice(1);
+    d = d.slice(0, 10);
+
+    const a = d.slice(0, 3);
+    const b = d.slice(3, 6);
+    const c = d.slice(6, 8);
+    const e = d.slice(8, 10);
+
+    let out = "+7";
+    if (a) out += ` (${a}`;
+    if (a.length === 3) out += ")";
+    if (b) out += ` ${b}`;
+    if (c) out += `-${c}`;
+    if (e) out += `-${e}`;
+    return out;
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
+
+    // +7 plus 10 national digits = 11 digits total
+    if (form.phone.replace(/\D/g, "").length !== 11) {
+      setError("Введите корректный номер телефона: +7 (999) 123-45-67");
+      return;
+    }
+
     setSubmitting(true);
     try {
       const res = await fetch("/api/orders", {
@@ -91,8 +119,8 @@ export default function CheckoutPage() {
             <Field
               label="Телефон *"
               value={form.phone}
-              onChange={(v) => update("phone", v)}
-              placeholder="+998 90 123 45 67"
+              onChange={(v) => update("phone", formatRuPhone(v))}
+              placeholder="+7 (999) 123-45-67"
               type="tel"
               required
             />
