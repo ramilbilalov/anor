@@ -40,7 +40,10 @@
       "Bash(git commit -q -m ' *)",
       "Bash(sed -n '1,80p' /Users/rambi/.npm/_npx/03f562a46baa5292/node_modules/@remotion/cli/dist/skills.js 2>/dev/null | head -100)",
       "Bash(git checkout *)",
-      "Bash(git branch *)"
+      "Bash(git branch *)",
+      "Bash(git -C /Users/rambi/anorStore config user.name)",
+      "Bash(git -C /Users/rambi/anorStore config user.email)",
+      "Bash(git credential *)"
     ]
   }
 }

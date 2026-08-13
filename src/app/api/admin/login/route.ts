@@ -61,11 +61,17 @@ export async function POST(request: NextRequest) {
   // Successful login: clear the failure counter for this client.
   resetRateLimit(key);
 
+  // Mark the cookie Secure only when the request actually came over HTTPS
+  // (detected via the reverse proxy's X-Forwarded-Proto header). This lets the
+  // admin work over plain http://IP before a domain/HTTPS is set up, and
+  // upgrades to a Secure cookie automatically once HTTPS is in place.
+  const isHttps = request.headers.get("x-forwarded-proto") === "https";
+
   const response = NextResponse.json({ ok: true });
   response.cookies.set(SESSION_COOKIE, createSessionToken(username), {
     httpOnly: true,
     sameSite: "lax",
-    secure: process.env.NODE_ENV === "production",
+    secure: isHttps,
     path: "/",
     maxAge: SESSION_MAX_AGE,
   });
