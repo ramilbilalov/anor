@@ -81,8 +81,13 @@ export default async function HomePage() {
                         </p>
                       )}
                       <div className="mt-auto pt-4">
-                        <p className="mb-2 text-lg font-semibold">
+                        <p className="mb-2 flex items-baseline gap-2 text-lg font-semibold">
                           {formatPrice(product.price)}
+                          {product.weight && (
+                            <span className="text-sm font-normal text-muted">
+                              {product.weight}
+                            </span>
+                          )}
                         </p>
                         <AddToCartButton
                           product={{

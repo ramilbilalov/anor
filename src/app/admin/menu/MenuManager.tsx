@@ -9,6 +9,7 @@ type Product = {
   name: string;
   description: string;
   composition: string;
+  weight: string;
   price: number;
   imageUrl: string | null;
   isAvailable: boolean;
@@ -154,7 +155,14 @@ export function MenuManager({ categories }: { categories: Category[] }) {
                           )}
                         </td>
                         <td className="p-2">
-                          <div className="font-medium">{product.name}</div>
+                          <div className="font-medium">
+                            {product.name}
+                            {product.weight && (
+                              <span className="ml-2 text-xs font-normal text-muted">
+                                {product.weight}
+                              </span>
+                            )}
+                          </div>
                           <div className="line-clamp-1 text-muted">
                             {product.description}
                           </div>
@@ -238,6 +246,7 @@ function ProductEditor({
       categories[0]?.id ??
       "",
     price: editing ? String(editing.price) : "",
+    weight: editing?.weight ?? "",
     description: editing?.description ?? "",
     composition: editing?.composition ?? "",
     imageUrl: editing?.imageUrl ?? "",
@@ -274,6 +283,7 @@ function ProductEditor({
       name: form.name,
       categoryId: form.categoryId,
       price: Number(form.price) || 0,
+      weight: form.weight,
       description: form.description,
       composition: form.composition,
       imageUrl: form.imageUrl || null,
@@ -347,6 +357,19 @@ function ProductEditor({
               className="w-full rounded-lg border border-border bg-background px-3 py-2 outline-none focus:border-primary"
             />
           </div>
+        </div>
+
+        <div>
+          <label className="mb-1 block text-sm font-medium">
+            Граммовка / объём
+          </label>
+          <input
+            type="text"
+            value={form.weight}
+            onChange={(e) => update("weight", e.target.value)}
+            placeholder="например: 300 г, 1 л, 150 г"
+            className="w-full rounded-lg border border-border bg-background px-3 py-2 outline-none focus:border-primary"
+          />
         </div>
 
         <div>

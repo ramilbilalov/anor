@@ -23,6 +23,7 @@ export async function POST(request: NextRequest) {
       price,
       description: (body.description ?? "").trim(),
       composition: (body.composition ?? "").trim(),
+      weight: (body.weight ?? "").trim(),
       imageUrl: body.imageUrl ? String(body.imageUrl) : null,
       isAvailable: body.isAvailable !== false,
       sortOrder: Number(body.sortOrder) || 0,

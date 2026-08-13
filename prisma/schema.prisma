@@ -36,6 +36,7 @@ model Product {
   name        String
   description String      @default("")
   composition String      @default("")
+  weight      String      @default("")
   price       Int
   imageUrl    String?
   isAvailable Boolean     @default(true)

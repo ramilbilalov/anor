@@ -45,6 +45,9 @@ export default async function ProductPage({
           <div className="flex flex-col">
             <span className="text-sm text-primary">{product.category.name}</span>
             <h1 className="mt-1 text-2xl font-bold">{product.name}</h1>
+            {product.weight && (
+              <p className="mt-1 text-sm text-muted">{product.weight}</p>
+            )}
 
             {product.description && (
               <p className="mt-3 text-muted">{product.description}</p>

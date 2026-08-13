@@ -27,6 +27,7 @@ export async function PATCH(
     data.description = body.description.trim();
   if (typeof body.composition === "string")
     data.composition = body.composition.trim();
+  if (typeof body.weight === "string") data.weight = body.weight.trim();
   if (body.imageUrl !== undefined)
     data.imageUrl = body.imageUrl ? String(body.imageUrl) : null;
   if (body.isAvailable !== undefined) data.isAvailable = Boolean(body.isAvailable);
