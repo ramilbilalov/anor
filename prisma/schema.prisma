@@ -19,6 +19,10 @@ model Settings {
   phone          String   @default("")
   workingHours   String   @default("")
   deliveryInfo   String   @default("")
+  legalName      String   @default("")
+  inn            String   @default("")
+  ogrnip         String   @default("")
+  legalEmail     String   @default("")
   updatedAt      DateTime @updatedAt
 }
 

@@ -84,6 +84,44 @@ export function SettingsForm({ initial }: { initial: RestaurantSettings }) {
           placeholder="Зона доставки, стоимость, минимальный заказ"
         />
 
+        <div className="mt-6 border-t border-border pt-4">
+          <h2 className="mb-1 text-sm font-semibold uppercase tracking-wide text-muted">
+            Юридические реквизиты
+          </h2>
+          <p className="mb-4 text-xs text-muted">
+            Используются в «Политике конфиденциальности» и «Оферте».
+          </p>
+          <div className="space-y-4">
+            <Field
+              label="Юридическое лицо / ИП"
+              value={form.legalName}
+              onChange={(v) => update("legalName", v)}
+              placeholder="ИП Иванов Иван Иванович"
+            />
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <Field
+                label="ИНН"
+                value={form.inn}
+                onChange={(v) => update("inn", v)}
+                placeholder="000000000000"
+              />
+              <Field
+                label="ОГРНИП / ОГРН"
+                value={form.ogrnip}
+                onChange={(v) => update("ogrnip", v)}
+                placeholder="000000000000000"
+              />
+            </div>
+            <Field
+              label="Email для обращений по персональным данным"
+              value={form.legalEmail}
+              onChange={(v) => update("legalEmail", v)}
+              placeholder="info@example.ru"
+              type="email"
+            />
+          </div>
+        </div>
+
         {error && (
           <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">
             {error}

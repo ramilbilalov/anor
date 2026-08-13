@@ -17,6 +17,7 @@ export default function CheckoutPage() {
     address: "",
     comment: "",
   });
+  const [consent, setConsent] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
@@ -52,6 +53,11 @@ export default function CheckoutPage() {
     // +7 plus 10 national digits = 11 digits total
     if (form.phone.replace(/\D/g, "").length !== 11) {
       setError("Введите корректный номер телефона: +7 (999) 123-45-67");
+      return;
+    }
+
+    if (!consent) {
+      setError("Подтвердите согласие с условиями и обработкой данных");
       return;
     }
 
@@ -150,6 +156,34 @@ export default function CheckoutPage() {
               />
             </div>
 
+            <label className="flex items-start gap-2 text-sm text-muted">
+              <input
+                type="checkbox"
+                checked={consent}
+                onChange={(e) => setConsent(e.target.checked)}
+                className="mt-0.5 h-4 w-4 shrink-0"
+              />
+              <span>
+                Оформляя заказ, я соглашаюсь с{" "}
+                <a
+                  href="/offer"
+                  target="_blank"
+                  className="text-primary hover:underline"
+                >
+                  условиями оферты
+                </a>{" "}
+                и{" "}
+                <a
+                  href="/privacy"
+                  target="_blank"
+                  className="text-primary hover:underline"
+                >
+                  обработкой персональных данных
+                </a>
+                .
+              </span>
+            </label>
+
             {error && (
               <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">
                 {error}
@@ -158,7 +192,7 @@ export default function CheckoutPage() {
 
             <button
               type="submit"
-              disabled={submitting}
+              disabled={submitting || !consent}
               className="w-full rounded-lg bg-primary px-6 py-3 font-medium text-primary-foreground transition hover:bg-primary-hover disabled:opacity-60"
             >
               {submitting ? "Отправляем…" : "Подтвердить заказ"}

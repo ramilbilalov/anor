@@ -35,9 +35,15 @@ export async function SiteFooter() {
               {s.workingHours}
             </p>
           )}
-          <p className="pt-2">
+          <p className="flex flex-wrap gap-x-4 gap-y-1 pt-2 sm:justify-end">
             <Link href="/about" className="text-primary hover:underline">
-              О ресторане и доставке
+              О ресторане
+            </Link>
+            <Link href="/offer" className="text-primary hover:underline">
+              Оферта
+            </Link>
+            <Link href="/privacy" className="text-primary hover:underline">
+              Политика конфиденциальности
             </Link>
           </p>
         </div>
