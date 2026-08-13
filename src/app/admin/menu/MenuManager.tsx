@@ -104,7 +104,7 @@ export function MenuManager({ categories }: { categories: Category[] }) {
       <div className="space-y-8">
         {categories.map((category) => (
           <section key={category.id}>
-            <div className="mb-3 flex items-center justify-between">
+            <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
               <h2 className="text-lg font-semibold">{category.name}</h2>
               <div className="flex gap-2">
                 <button
@@ -131,8 +131,8 @@ export function MenuManager({ categories }: { categories: Category[] }) {
                 В категории пока нет блюд.
               </p>
             ) : (
-              <div className="overflow-hidden rounded-xl border border-border bg-card">
-                <table className="w-full text-sm">
+              <div className="overflow-x-auto rounded-xl border border-border bg-card">
+                <table className="w-full min-w-[520px] text-sm">
                   <tbody>
                     {category.products.map((product) => (
                       <tr

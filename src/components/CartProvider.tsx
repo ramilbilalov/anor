@@ -6,6 +6,7 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from "react";
 
@@ -33,6 +34,7 @@ const STORAGE_KEY = "anor_cart";
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
   const [loaded, setLoaded] = useState(false);
+  const syncedRef = useRef(false);
 
   useEffect(() => {
     try {
@@ -48,6 +50,38 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     if (!loaded) return;
     localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
   }, [items, loaded]);
+
+  // Once after load, refresh cart items from the server so names, prices and
+  // photos stay current, and drop items that were deleted or hidden.
+  useEffect(() => {
+    if (!loaded || syncedRef.current || items.length === 0) return;
+    syncedRef.current = true;
+
+    const ids = items.map((i) => i.id).join(",");
+    let cancelled = false;
+
+    fetch(`/api/products?ids=${encodeURIComponent(ids)}`)
+      .then((r) => r.json())
+      .then((data: { products?: Array<Omit<CartItem, "quantity"> & { isAvailable: boolean }> }) => {
+        if (cancelled) return;
+        const map = new Map((data.products ?? []).map((p) => [p.id, p]));
+        setItems((cur) =>
+          cur
+            .filter((i) => map.get(i.id)?.isAvailable)
+            .map((i) => {
+              const p = map.get(i.id)!;
+              return { ...i, name: p.name, price: p.price, imageUrl: p.imageUrl };
+            })
+        );
+      })
+      .catch(() => {
+        // offline / error: keep the stored cart as-is
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [loaded, items]);
 
   const addItem = useCallback(
     (item: Omit<CartItem, "quantity">, quantity = 1) => {
