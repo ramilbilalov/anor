@@ -83,7 +83,16 @@ sudo apt-get install -y nginx
 ```nginx
 server {
     server_name ваш-домен.ru www.ваш-домен.ru;
-    client_max_body_size 6M;   # чтобы проходила загрузка фото
+    client_max_body_size 16M;  # чтобы проходила загрузка фото
+
+    # Раздаём загруженные фото напрямую (Next.js не отдаёт файлы,
+    # добавленные в public/ после сборки).
+    location /uploads/ {
+        alias /var/www/anor/public/uploads/;
+        access_log off;
+        expires 30d;
+        try_files $uri =404;
+    }
 
     location / {
         proxy_pass http://127.0.0.1:3000;
