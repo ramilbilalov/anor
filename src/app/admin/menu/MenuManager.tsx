@@ -394,8 +394,12 @@ function ProductEditor({
                 }}
                 className="text-sm"
               />
-              {uploading && (
+              {uploading ? (
                 <span className="text-xs text-muted">Загрузка…</span>
+              ) : (
+                <span className="text-xs text-muted">
+                  Любое фото — обрежется в квадрат и сожмётся автоматически
+                </span>
               )}
               {form.imageUrl && (
                 <button

@@ -43,7 +43,8 @@
       "Bash(git branch *)",
       "Bash(git -C /Users/rambi/anorStore config user.name)",
       "Bash(git -C /Users/rambi/anorStore config user.email)",
-      "Bash(git credential *)"
+      "Bash(git credential *)",
+      "Bash(git push *)"
     ]
   }
 }
