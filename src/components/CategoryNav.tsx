@@ -24,12 +24,16 @@ export function CategoryNav({ categories }: { categories: Cat[] }) {
     return () => window.removeEventListener("scroll", onScroll);
   }, [categories]);
 
-  // Keep the active chip scrolled into view within the horizontal bar.
+  // Keep the active chip centered within the bar — scroll ONLY the bar
+  // horizontally (scrollIntoView would also scroll the page vertically).
   useEffect(() => {
-    const chip = navRef.current?.querySelector<HTMLElement>(
-      `[data-cat="${active}"]`
-    );
-    chip?.scrollIntoView({ block: "nearest", inline: "center" });
+    const nav = navRef.current;
+    const chip = nav?.querySelector<HTMLElement>(`[data-cat="${active}"]`);
+    if (nav && chip) {
+      const target =
+        chip.offsetLeft - nav.clientWidth / 2 + chip.clientWidth / 2;
+      nav.scrollTo({ left: target, behavior: "smooth" });
+    }
   }, [active]);
 
   function handleClick(e: React.MouseEvent, id: string) {
